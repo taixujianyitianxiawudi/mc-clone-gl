@@ -21,6 +21,7 @@ private:
     int count_to_draw;
     std::vector<int> getVertexData();  // Function to generate vertex data
     void getVAO();  // Function to initialize VAO and VBO
+    int formatSize;
 };
 
 #endif // CHUNKMESH_HPP

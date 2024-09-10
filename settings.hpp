@@ -41,7 +41,7 @@ constexpr int WORLD_D = 10;
 constexpr int WORLD_AREA = WORLD_W * WORLD_D;
 constexpr int WORLD_VOL = WORLD_AREA * WORLD_H;
 
-constexpr float PLAYER_SPEED = 21.0f;
+constexpr float PLAYER_SPEED = 61.0f;
 constexpr float MOUSE_SENSITIVITY = 0.002f;
 constexpr float PlAYER_ROT_SPEED = 0.003f;
 constexpr glm::vec3 PLAYER_POS = glm::vec3(1.0f, 0.0f, 1.0f);

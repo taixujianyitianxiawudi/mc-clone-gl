@@ -4,7 +4,7 @@
 #include "chunk_mesh_builder.hpp"  // Assuming this will be defined to build the chunk mesh
 
 // Constructor: initializes the chunk mesh with the chunk data
-ChunkMesh::ChunkMesh(Chunk* chunk) : chunk(chunk), vao(0), vbo(0) {
+ChunkMesh::ChunkMesh(Chunk* chunk) : chunk(chunk), vao(0), vbo(0), formatSize(7) {
     program = chunk->app->shaderProgram->chunkProgram;  // Get the shader program from the app
 
     // Initialize the VAO and VBO
@@ -21,7 +21,7 @@ ChunkMesh::~ChunkMesh() {
 void ChunkMesh::getVAO() {
     // Get vertex data
     std::vector<int> vertexData = getVertexData();
-    count_to_draw = vertexData.size() / 5;
+    count_to_draw = vertexData.size() / formatSize;
     // Generate and bind VAO
     GLCall(glGenVertexArrays(1, &vao));
     GLCall(glBindVertexArray(vao));
@@ -31,18 +31,27 @@ void ChunkMesh::getVAO() {
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, vbo));
     GLCall(glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(int), vertexData.data(), GL_STATIC_DRAW));
 
+    auto strideLength = formatSize * sizeof(int);
     // Set the attribute pointers (e.g., position, voxel_id, face_id, ao_id, flip_id)
     GLuint posLocation = glGetAttribLocation(program, "in_position");
-    GLCall(glVertexAttribPointer(posLocation, 3, GL_INT, GL_FALSE, 5 * sizeof(int), (void*)0));
+    GLCall(glVertexAttribPointer(posLocation, 3, GL_INT, GL_FALSE, strideLength, (void*)0));
     GLCall(glEnableVertexAttribArray(posLocation));
 
     GLuint voxelIdLocation = glGetAttribLocation(program, "voxel_id");
-    GLCall(glVertexAttribPointer(voxelIdLocation, 1, GL_INT, GL_FALSE, 5 * sizeof(int), (void*)(3 * sizeof(int))));
+    GLCall(glVertexAttribPointer(voxelIdLocation, 1, GL_INT, GL_FALSE, strideLength, (void*)(3 * sizeof(int))));
     GLCall(glEnableVertexAttribArray(voxelIdLocation));
 
     GLuint faceIdLocation = glGetAttribLocation(program, "face_id");
-    GLCall(glVertexAttribPointer(faceIdLocation, 1, GL_INT, GL_FALSE, 5 * sizeof(int), (void*)(4 * sizeof(int))));
+    GLCall(glVertexAttribPointer(faceIdLocation, 1, GL_INT, GL_FALSE, strideLength, (void*)(4 * sizeof(int))));
     GLCall(glEnableVertexAttribArray(faceIdLocation));
+
+    GLuint aoIdLocation = glGetAttribLocation(program, "ao_id");
+    GLCall(glVertexAttribPointer(aoIdLocation, 1, GL_INT, GL_FALSE, strideLength, (void*)(5 * sizeof(int))));
+    GLCall(glEnableVertexAttribArray(aoIdLocation));
+
+    GLuint flipIdLocation = glGetAttribLocation(program, "flip_id");
+    GLCall(glVertexAttribPointer(flipIdLocation, 1, GL_INT, GL_FALSE, strideLength, (void*)(6 * sizeof(int))));
+    GLCall(glEnableVertexAttribArray(flipIdLocation));
 
     // Unbind the VAO
     GLCall(glBindVertexArray(0));
@@ -51,7 +60,7 @@ void ChunkMesh::getVAO() {
 // Function to generate vertex data for the chunk mesh
 std::vector<int> ChunkMesh::getVertexData() {
     // Use the chunk's voxel data and format size to build the chunk mesh
-    int formatSize = 5;  // Based on 3u1 1u1 1u1 format: 3 unsigned ints for position, 1 for voxel_id, and 1 for face_id
+      // Based on 3u1 1u1 1u1 format: 3 unsigned ints for position, 1 for voxel_id, and 1 for face_id
     return buildChunkMesh(*(chunk->voxels), formatSize, chunk->position, chunk->world->voxels);
 }
 

@@ -17,6 +17,6 @@ void Scene::update() {
 
 // Render function to render the quad mesh
 void Scene::render() {
-    quad.render();
+    //quad.render();
     world.render();
 }

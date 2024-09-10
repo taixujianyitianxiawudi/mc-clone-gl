@@ -5,7 +5,7 @@
 #include "../World.hpp"
 #include "../voxel_engine.hpp"
 
-Chunk::Chunk(World* world, glm::vec3 position)
+Chunk::Chunk(World* world, glm::ivec3 position)
     : world(world),
       app(world->getApp()),
       mesh(nullptr),
