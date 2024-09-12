@@ -35,6 +35,7 @@ add_executable(untitled3 main.cpp
         Textures.hpp
         World.cpp
         World.hpp
+        assets/stb_image.h
 )
 target_include_directories(untitled3 PUBLIC "E:/SFML-2.6.1/include")
 # Link SFML libraries

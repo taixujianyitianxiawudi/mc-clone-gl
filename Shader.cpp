@@ -8,15 +8,15 @@
 ShaderProgram::ShaderProgram(VoxelEngine* app)
     : app(app) {
     // Load the quad shader program
-    quadProgram = getProgram("quad");
-    chunkProgram = getProgram("chunk");
+    //quadProgram = getProgram("quad");
+    chunkProgram = getProgram("chunk1");
     // Set the initial uniforms
     setUniformsOnInit();
 }
 
 // Destructor
 ShaderProgram::~ShaderProgram() {
-    glDeleteProgram(quadProgram);  // Delete the shader program when done
+    //glDeleteProgram(quadProgram);  // Delete the shader program when done
     glDeleteProgram(chunkProgram);
 }
 
@@ -26,9 +26,9 @@ void ShaderProgram::setUniformsOnInit() {
     glm::mat4 proj = app->player->get_projection_matrix();
     glm::mat4 model = glm::mat4(1.0f);  // Identity matrix for the model
 
-    use(quadProgram);  // Activate the shader program
-    setMatrixUniform(quadProgram, "m_proj", proj);
-    setMatrixUniform(quadProgram, "m_model", model);
+    //use(quadProgram);  // Activate the shader program
+    //setMatrixUniform(quadProgram, "m_proj", proj);
+    //setMatrixUniform(quadProgram, "m_model", model);
 
     use(chunkProgram);
     setMatrixUniform(chunkProgram, "m_proj", proj);
@@ -39,8 +39,8 @@ void ShaderProgram::setUniformsOnInit() {
 // Update the uniforms (for example, the view matrix)
 void ShaderProgram::update() {
     glm::mat4 view = app->player->get_view_matrix();  // Get the view matrix from the player
-    use(quadProgram);  // Activate the shader program
-    setMatrixUniform(quadProgram, "m_view", view);  // Update the view matrix uniform
+    //use(quadProgram);  // Activate the shader program
+    //setMatrixUniform(quadProgram, "m_view", view);  // Update the view matrix uniform
     use(chunkProgram);
     setMatrixUniform(chunkProgram, "m_view", view);
 }

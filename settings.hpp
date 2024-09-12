@@ -1,8 +1,8 @@
 
 #pragma once
 #include <array>
-#include "glm.hpp"
-#include <gtc/type_ptr.hpp>
+#include "glm/glm.hpp"
+#include <glm/gtc/type_ptr.hpp>
 #include <fstream>
 #include <sstream>
 
@@ -15,7 +15,7 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/System/Clock.hpp>
 #include <iostream>
-#include "gtc/noise.hpp"
+#include "glm/gtc/noise.hpp"
 
 const sf::VideoMode WIN_RES(1600, 900); // Define your window resolution here
 const sf::Color BG_COLOR(110, 110, 110, 255); // Background color
@@ -36,7 +36,7 @@ constexpr int CHUNK_VOL = CHUNK_AREA * CHUNK_SIZE;
 
 //world
 constexpr int WORLD_W = 10;
-constexpr int WORLD_H = 3;
+constexpr int WORLD_H = 2;
 constexpr int WORLD_D = 10;
 constexpr int WORLD_AREA = WORLD_W * WORLD_D;
 constexpr int WORLD_VOL = WORLD_AREA * WORLD_H;

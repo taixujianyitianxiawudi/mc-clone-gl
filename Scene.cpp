@@ -7,7 +7,9 @@
 
 // Constructor
 Scene::Scene(VoxelEngine* app)
-    : app(app), quad(app), world(app) {}
+    : app(app),
+    //quad(app),
+    world(app) {}
 
 // Update function (currently empty)
 void Scene::update() {

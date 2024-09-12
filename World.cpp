@@ -5,13 +5,6 @@
 World::World(VoxelEngine* app)
     : app(app)
 {
-
-    // no need to do this
-    // Initialize voxels to zero (or other values as needed)
-    //for (auto& chunk_voxels : voxels) {
-    //    chunk_voxels.fill(0);  // Fill each chunk's voxel array with 0
-    //}
-
     buildChunks();
     buildChunkMesh();
 }
@@ -58,9 +51,6 @@ void World::render() {
     for (auto& chunk : chunks) {
         chunk->render();  // Render each chunk
     }
-    //for (int i = 0; i < WORLD_VOL; i++) {
-    //    chunks[i]->render();
-    //}
 }
 
 VoxelEngine * World::getApp() {

@@ -19,7 +19,7 @@ public:
     void render();
 private:
     VoxelEngine* app;
-    QuadMesh quad;
+    //QuadMesh quad;
     World world;
 
 };

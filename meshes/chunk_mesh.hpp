@@ -19,7 +19,7 @@ private:
 
     Chunk* chunk;         // Pointer to the chunk
     int count_to_draw;
-    std::vector<int> getVertexData();  // Function to generate vertex data
+    std::vector<uint8_t> getVertexData();  // Function to generate vertex data
     void getVAO();  // Function to initialize VAO and VBO
     int formatSize;
 };

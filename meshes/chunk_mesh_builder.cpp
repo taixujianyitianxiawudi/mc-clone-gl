@@ -4,18 +4,22 @@
 
 #include "chunk_mesh_builder.hpp"
 
+std::array<uint8_t, 7> to_uint8(int x, int y, int z, int voxel_id, int face_id, int ao_id, int flip_id) {
+    return {static_cast<uint8_t>(x), static_cast<uint8_t>(y), static_cast<uint8_t>(z),
+            static_cast<uint8_t>(voxel_id), static_cast<uint8_t>(face_id),
+            static_cast<uint8_t>(ao_id), static_cast<uint8_t>(flip_id)};
+}
 
 // Check if the voxel at the given position is void (empty)
 bool isVoid(const std::array<int, 3>& localVoxelPos,
     glm::vec3 worldVoxelPos,
     std::array<std::array<int, CHUNK_VOL>, WORLD_VOL>& worldVoxels) {
+
     int chunkIndex = getChunkIndex(worldVoxelPos);
     if (chunkIndex == -1) {
-        return false;
-    }
-    if (chunkIndex >= WORLD_VOL) {
         return true;
     }
+
     std::array<int, CHUNK_VOL>& chunkVoxels = worldVoxels[chunkIndex];
     int x = localVoxelPos[0];
     int y = localVoxelPos[1];
@@ -24,9 +28,22 @@ bool isVoid(const std::array<int, 3>& localVoxelPos,
     //if(x < 0 || x >= CHUNK_SIZE || y < 0 || y >= CHUNK_SIZE || z < 0 || z >= CHUNK_SIZE) {
     //    return true;
     //}
-    if(x <= 0  || y <= 0 || z <= 0) {
-        return true;
+    //if(x < 0  or y < 0 or z < 0) {
+    //   return false;
+    //}
+    if (x < 0) {
+        x = CHUNK_SIZE-1;
     }
+    if (y < 0) {
+        y = CHUNK_SIZE * CHUNK_AREA-1;
+    }
+    if (z < 0) {
+        z = CHUNK_SIZE * CHUNK_SIZE-1;
+    }
+    if (z == -2) {
+        std::cout << "z = -2!!!!!!!" << std::endl;
+    }
+
     int voxelIndex = x % CHUNK_SIZE + z % CHUNK_SIZE * CHUNK_SIZE + y % CHUNK_SIZE * CHUNK_AREA;
 
     if (chunkVoxels[voxelIndex]) {
@@ -36,10 +53,10 @@ bool isVoid(const std::array<int, 3>& localVoxelPos,
 }
 
 // Helper function to add vertex data into the vertex data array
-int addData(std::vector<int>& vertexData, int index, const std::array<std::array<int, 7>, 6>& vertices) {
+int addData(std::vector<uint8_t>& vertexData, int index, const std::array<std::array<uint8_t, 7>, 6>& vertices) {
     for (const auto& vertex : vertices) {
-        for (int attr : vertex) {
-            vertexData[index] = static_cast<int>(attr);
+        for (uint8_t attr : vertex) {
+            vertexData[index] = attr;
             index += 1;
         }
     }
@@ -47,13 +64,13 @@ int addData(std::vector<int>& vertexData, int index, const std::array<std::array
 }
 
 // Build the chunk mesh based on chunk voxels
-std::vector<int> buildChunkMesh(
+std::vector<uint8_t> buildChunkMesh(
     const std::array<int, CHUNK_VOL>& chunkVoxels,
     int formatSize,
-    glm::vec3 chunkPos,
+    glm::ivec3 chunkPos,
     std::array<std::array<int, CHUNK_VOL>, WORLD_VOL>& worldVoxels) {
 
-    std::vector<int> vertexData(CHUNK_VOL * 18 * formatSize);  // Preallocate enough space
+    std::vector<uint8_t> vertexData(CHUNK_VOL * 18 * formatSize);  // Preallocate enough space
     int index = 0;
 
     for (int x = 0; x < CHUNK_SIZE; ++x) {
@@ -80,13 +97,14 @@ std::vector<int> buildChunkMesh(
                     auto ao = get_ao({x, y + 1, z}, {wx, wy + 1, wz}, worldVoxels, 'Y');
                     bool flip_id = (ao[1] + ao[3]) > (ao[0] + ao[2]);
 
-                    std::array<int, 7> v0 = {x,     y + 1, z,     voxelId, 0, ao[0], flip_id};
-                    std::array<int, 7> v1 = {x + 1, y + 1, z,     voxelId, 0, ao[1], flip_id};
-                    std::array<int, 7> v2 = {x + 1, y + 1, z + 1, voxelId, 0, ao[2], flip_id};
-                    std::array<int, 7> v3 = {x,     y + 1, z + 1, voxelId, 0, ao[3], flip_id};
+                    auto v0 = to_uint8(x,     y + 1, z,     voxelId, 0, ao[0], flip_id);
+                    auto v1 = to_uint8(x + 1, y + 1, z,     voxelId, 0, ao[1], flip_id);
+                    auto v2 = to_uint8(x + 1, y + 1, z + 1, voxelId, 0, ao[2], flip_id);
+                    auto v3 = to_uint8(x,     y + 1, z + 1, voxelId, 0, ao[3], flip_id);
 
-                    if (flip_id) {
-                        index = addData(vertexData, index, {v1, v0, v3, v1, v3, v2});
+
+                    if (1) {
+                        index = addData(vertexData, index, std::array<std::array<uint8_t, 7>, 6>{v1, v0, v3, v1, v3, v2});
                     } else {
                         index = addData(vertexData, index, {v0, v3, v2, v0, v2, v1});
                     }
@@ -97,12 +115,12 @@ std::vector<int> buildChunkMesh(
                     auto ao = get_ao({x, y - 1, z}, {wx, wy - 1, wz}, worldVoxels, 'Y');
                     bool flip_id = (ao[1] + ao[3]) > (ao[0] + ao[2]);
 
-                    std::array<int, 7> v0 = {x,     y,     z,     voxelId, 1, ao[0], flip_id};
-                    std::array<int, 7> v1 = {x + 1, y,     z,     voxelId, 1, ao[1], flip_id};
-                    std::array<int, 7> v2 = {x + 1, y,     z + 1, voxelId, 1, ao[2], flip_id};
-                    std::array<int, 7> v3 = {x,     y,     z + 1, voxelId, 1, ao[3], flip_id};
-                    if (flip_id) {
-                        index = addData(vertexData, index, {v1, v3, v0, v1, v2, v3});
+                    auto v0 = to_uint8(x,     y,     z,     voxelId, 1, ao[0], flip_id);
+                    auto v1 = to_uint8(x + 1, y,     z,     voxelId, 1, ao[1], flip_id);
+                    auto v2 = to_uint8(x + 1, y,     z + 1, voxelId, 1, ao[2], flip_id);
+                    auto v3 = to_uint8(x,     y,     z + 1, voxelId, 1, ao[3], flip_id);
+                    if (1) {
+                        index = addData(vertexData, index, std::array<std::array<uint8_t, 7>, 6>{v1, v3, v0, v1, v2, v3});
                     } else {
                         index = addData(vertexData, index, {v0, v2, v3, v0, v1, v2});
                     }
@@ -112,13 +130,13 @@ std::vector<int> buildChunkMesh(
                 if (isVoid({x + 1, y, z}, {wx + 1, wy, wz}, worldVoxels)) {
                     auto ao = get_ao({x + 1, y, z}, {wx + 1, wy, wz}, worldVoxels, 'X');
                     bool flip_id = (ao[1] + ao[3]) > (ao[0] + ao[2]);
-                    std::array<int, 7> v0 = {x + 1, y,     z,     voxelId, 2, ao[0], flip_id};
-                    std::array<int, 7> v1 = {x + 1, y + 1, z,     voxelId, 2, ao[1], flip_id};
-                    std::array<int, 7> v2 = {x + 1, y + 1, z + 1, voxelId, 2, ao[2], flip_id};
-                    std::array<int, 7> v3 = {x + 1, y,     z + 1, voxelId, 2, ao[3], flip_id};
+                    auto v0 = to_uint8(x + 1, y,     z,     voxelId, 2, ao[0], flip_id);
+                    auto v1 = to_uint8(x + 1, y + 1, z,     voxelId, 2, ao[1], flip_id);
+                    auto v2 = to_uint8(x + 1, y + 1, z + 1, voxelId, 2, ao[2], flip_id);
+                    auto v3 = to_uint8(x + 1, y,     z + 1, voxelId, 2, ao[3], flip_id);
 
-                    if (flip_id) {
-                        index = addData(vertexData, index, {v3, v0, v1, v3, v1, v2});
+                    if (1) {
+                        index = addData(vertexData, index, std::array<std::array<uint8_t, 7>, 6>{v3, v0, v1, v3, v1, v2});
                     } else {
                         index = addData(vertexData, index, {v0, v1, v2, v0, v2, v3});
                     }
@@ -129,30 +147,30 @@ std::vector<int> buildChunkMesh(
                     auto ao = get_ao({x - 1, y, z}, {wx - 1, wy, wz}, worldVoxels, 'X');
                     bool flip_id = (ao[1] + ao[3]) > (ao[0] + ao[2]);
 
-                    std::array<int, 7> v0 = {x,     y,     z,     voxelId, 3, ao[0], flip_id};
-                    std::array<int, 7> v1 = {x,     y + 1, z,     voxelId, 3, ao[1], flip_id};
-                    std::array<int, 7> v2 = {x,     y + 1, z + 1, voxelId, 3, ao[2], flip_id};
-                    std::array<int, 7> v3 = {x,     y,     z + 1, voxelId, 3, ao[3], flip_id};
+                    auto v0 = to_uint8(x,     y,     z,     voxelId, 3, ao[0], flip_id);
+                    auto v1 = to_uint8(x,     y + 1, z,     voxelId, 3, ao[1], flip_id);
+                    auto v2 = to_uint8(x,     y + 1, z + 1, voxelId, 3, ao[2], flip_id);
+                    auto v3 = to_uint8(x,     y,     z + 1, voxelId, 3, ao[3], flip_id);
 
-                    if (flip_id) {
-                        index = addData(vertexData, index, {v3, v1, v0, v3, v2, v1});
+                    if (1) {
+                        index = addData(vertexData, index, std::array<std::array<uint8_t, 7>, 6>{v3, v1, v0, v3, v2, v1});
                     } else {
                         index = addData(vertexData, index, {v0, v2, v1, v0, v3, v2});
                     }
                 }
 
                 // Back face
-                if (isVoid({x, y, z - 1}, {wx, wy, wz + 1}, worldVoxels)) {
-                    auto ao = get_ao({x, y, z - 1}, {wx, wy, wz + 1}, worldVoxels, 'Z');
+                if (isVoid({x, y, z - 1}, {wx, wy, wz - 1}, worldVoxels)) {
+                    auto ao = get_ao({x, y, z - 1}, {wx, wy, wz - 1}, worldVoxels, 'Z');
                     bool flip_id = (ao[1] + ao[3]) > (ao[0] + ao[2]);
 
-                    std::array<int, 7> v0 = {x,     y,     z,     voxelId, 4, ao[0], flip_id};
-                    std::array<int, 7> v1 = {x,     y + 1, z,     voxelId, 4, ao[1], flip_id};
-                    std::array<int, 7> v2 = {x + 1, y + 1, z,     voxelId, 4, ao[2], flip_id};
-                    std::array<int, 7> v3 = {x + 1, y,     z,     voxelId, 4, ao[3], flip_id};
+                    auto v0 = to_uint8(x,     y,     z,     voxelId, 4, ao[0], flip_id);
+                    auto v1 = to_uint8(x,     y + 1, z,     voxelId, 4, ao[1], flip_id);
+                    auto v2 = to_uint8(x + 1, y + 1, z,     voxelId, 4, ao[2], flip_id);
+                    auto v3 = to_uint8(x + 1, y,     z,     voxelId, 4, ao[3], flip_id);
 
-                    if (flip_id) {
-                        index = addData(vertexData, index, {v3, v0, v1, v3, v1, v2});
+                    if (1) {
+                        index = addData(vertexData, index, std::array<std::array<uint8_t, 7>, 6>{v3, v0, v1, v3, v1, v2});
                     } else {
                         index = addData(vertexData, index, {v0, v1, v2, v0, v2, v3});
                     }
@@ -163,13 +181,13 @@ std::vector<int> buildChunkMesh(
                     auto ao = get_ao({x, y, z + 1}, {wx, wy, wz + 1}, worldVoxels, 'Z');
                     bool flip_id = (ao[1] + ao[3]) > (ao[0] + ao[2]);
 
-                    std::array<int, 7> v0 = {x,     y,     z + 1, voxelId, 5, ao[0], flip_id};
-                    std::array<int, 7> v1 = {x,     y + 1, z + 1, voxelId, 5, ao[1], flip_id};
-                    std::array<int, 7> v2 = {x + 1, y + 1, z + 1, voxelId, 5, ao[2], flip_id};
-                    std::array<int, 7> v3 = {x + 1, y,     z + 1, voxelId, 5, ao[3], flip_id};
+                    auto v0 = to_uint8(x,     y,     z + 1, voxelId, 5, ao[0], flip_id);
+                    auto v1 = to_uint8(x,     y + 1, z + 1, voxelId, 5, ao[1], flip_id);
+                    auto v2 = to_uint8(x + 1, y + 1, z + 1, voxelId, 5, ao[2], flip_id);
+                    auto v3 = to_uint8(x + 1, y,     z + 1, voxelId, 5, ao[3], flip_id);
 
-                    if (flip_id) {
-                        index = addData(vertexData, index, {v3, v1, v0, v3, v2, v1});
+                    if (1) {
+                        index = addData(vertexData, index, std::array<std::array<uint8_t, 7>, 6>{v3, v1, v0, v3, v2, v1});
                     } else {
                         index = addData(vertexData, index, {v0, v2, v1, v0, v3, v2});
                     }
@@ -190,7 +208,7 @@ int getChunkIndex(glm::vec3 world_voxel_pos) {
     int cy = wy / CHUNK_SIZE;
     int cz = wz / CHUNK_SIZE;
 
-    if (!(0 <= cx < WORLD_W and 0 <= cy < WORLD_H and 0 <= cz < WORLD_D)) {
+    if (cx < 0 or cx >= WORLD_W or cy < 0 or cy >= WORLD_H or cz < 0 or cz >= WORLD_D) {
         return -1;
     }
 

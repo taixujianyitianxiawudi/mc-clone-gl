@@ -1,11 +1,12 @@
 #include "Textures.hpp"
 #include "voxel_engine.hpp"
-
+#define STB_IMAGE_IMPLEMENTATION
+#include "assets/stb_image.h"
 
 // Constructor to initialize textures
 Textures::Textures(VoxelEngine* app) : app(app), texture_0(0) {
     // Load the texture from file
-    texture_0 = load("grass.png");
+    texture_0 = load("test.png");
 
     // Bind the texture to texture unit 0
     GLCall(glActiveTexture(GL_TEXTURE0));
@@ -19,15 +20,24 @@ Textures::~Textures() {
 
 // Function to load a texture from file using SFML
 GLuint Textures::load(const std::string& fileName) {
-    // Load the texture using SFML
-    sf::Image image;
-    if (!image.loadFromFile("../assets/" + fileName)) {
+    // Load the texture using stb_image
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true); // Flip the image vertically
+
+    unsigned char* data = stbi_load(("../assets/" + fileName).c_str(), &width, &height, &nrChannels, 0);
+    if (!data) {
         std::cerr << "Failed to load texture: " << fileName << std::endl;
         return 0;
     }
 
-    // Flip the image on the y-axis (optional)
-    image.flipVertically();
+    // Determine the format based on the number of channels
+    GLenum format;
+    if (nrChannels == 1)
+        format = GL_RED;
+    else if (nrChannels == 3)
+        format = GL_RGB;
+    else if (nrChannels == 4)
+        format = GL_RGBA;
 
     // Generate an OpenGL texture
     GLuint textureID;
@@ -38,18 +48,18 @@ GLuint Textures::load(const std::string& fileName) {
     glTexImage2D(
         GL_TEXTURE_2D,
         0,
-        GL_RGBA,
-        image.getSize().x,
-        image.getSize().y,
+        format,  // Use the appropriate internal format
+        width,
+        height,
         0,
-        GL_RGBA,
+        format,
         GL_UNSIGNED_BYTE,
-        image.getPixelsPtr()
+        data
     );
 
     // Set texture parameters
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -61,6 +71,9 @@ GLuint Textures::load(const std::string& fileName) {
 
     // Unbind the texture
     GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+
+    // Free the image data
+    stbi_image_free(data);
 
     return textureID;
 }

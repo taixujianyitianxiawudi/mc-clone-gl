@@ -23,7 +23,6 @@ public:
     void render();
     VoxelEngine* getApp();
     std::array<std::array<int, CHUNK_VOL>, WORLD_VOL> voxels;
-    //std::array<std::unique_ptr<Chunk>, WORLD_VOL> chunks;
     std::array<Chunk*, WORLD_VOL> chunks;
 private:
     VoxelEngine* app;
