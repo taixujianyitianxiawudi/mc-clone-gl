@@ -8,8 +8,10 @@
 ShaderProgram::ShaderProgram(VoxelEngine* app)
     : app(app) {
     // Load the quad shader program
-    //quadProgram = getProgram("quad");
-    chunkProgram = getProgram("chunk1");
+    quadProgram = getProgram("quad");
+    chunkProgram = getProgram("chunk_chat");
+    voxel_marker_program = getProgram("voxel_marker");
+    cloudsProgram = getProgram("clouds");
     // Set the initial uniforms
     setUniformsOnInit();
 }
@@ -33,7 +35,12 @@ void ShaderProgram::setUniformsOnInit() {
     use(chunkProgram);
     setMatrixUniform(chunkProgram, "m_proj", proj);
     setMatrixUniform(chunkProgram, "m_model", model);
-    setTextureUniform(chunkProgram, "u_texture_0", 0);
+    setTextureUniform(chunkProgram, "texture_diffuse", 0);
+
+    use(voxel_marker_program);
+    setMatrixUniform(voxel_marker_program, "m_proj", proj);
+    setMatrixUniform(voxel_marker_program, "m_model", model);
+    setTextureUniform(voxel_marker_program, "u_texture_0", 3);
 }
 
 // Update the uniforms (for example, the view matrix)
@@ -43,6 +50,8 @@ void ShaderProgram::update() {
     //setMatrixUniform(quadProgram, "m_view", view);  // Update the view matrix uniform
     use(chunkProgram);
     setMatrixUniform(chunkProgram, "m_view", view);
+    use(voxel_marker_program);
+    setMatrixUniform(voxel_marker_program, "m_view", view);
 }
 
 // Use the shader program
@@ -127,4 +136,22 @@ void ShaderProgram::setTextureUniform(GLuint program, const std::string &name, G
         return;
     }
     glUniform1i(location, texture);
+}
+
+void ShaderProgram::setUnsignedIntUniform(GLuint program, const std::string &name, int value) {
+    GLuint location = glGetUniformLocation(program, name.c_str());
+    if (location == -1) {
+        std::cerr << "Error: Uniform " << name << " not found in shader program " << program << std::endl;
+        return;
+    }
+    glUniform1ui(location, value);
+}
+
+void ShaderProgram::setIntUniform(GLuint program, const std::string &name, int value) {
+    GLuint location = glGetUniformLocation(program, name.c_str());
+    if (location == -1) {
+        std::cerr << "Error: Uniform " << name << " not found in shader program " << program << std::endl;
+        return;
+    }
+    glUniform1i(location, value);
 }

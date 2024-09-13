@@ -15,13 +15,17 @@ public:
     void update();  // Update the uniforms during runtime
     GLuint quadProgram;  // The OpenGL shader program ID
     GLuint chunkProgram;
+    GLuint voxel_marker_program;
 
     VoxelEngine* app;  // Reference to the main application (VoxelEngine)
+    GLuint cloudsProgram;
 
     GLuint loadShader(const std::string& filePath, GLenum shaderType);  // Load and compile a shader
     GLuint getProgram(const std::string& shaderName);  // Load the shader program from file
     void setMatrixUniform(GLuint program, const std::string& name, const glm::mat4& matrix);  // Helper to set uniform matrices
     void setTextureUniform(GLuint program, const std::string& name, GLuint texture);  // Helper to set uniform textures
+    void setUnsignedIntUniform(GLuint program, const std::string& name, int value);  // Helper to set uniform integers
+    void setIntUniform(GLuint program, const std::string& name, int value);  // Helper to set uniform integers
 };
 
 #endif // SHADERPROGRAM_HPP

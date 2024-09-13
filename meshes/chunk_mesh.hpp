@@ -1,27 +1,43 @@
-#ifndef CHUNKMESH_HPP
-#define CHUNKMESH_HPP
+#ifndef CHUNK_MESH_HPP
+#define CHUNK_MESH_HPP
 
-#include "../settings.hpp"
+#include "../settings.hpp"  // Assuming you have settings like CHUNK_SIZE, CHUNK_AREA
 
 
 class Chunk;
+class ChunkMeshBuilder;
 class VoxelEngine;
 
 class ChunkMesh {
 public:
-    ChunkMesh(Chunk* chunk);  // Constructor
-    ~ChunkMesh();             // Destructor
+    // Constructor: takes a pointer to the owning chunk
+    ChunkMesh(Chunk* chunk);
 
-    void render();  // Render the chunk mesh
-    GLuint program;       // Shader program ID
+    // Destructor
+    ~ChunkMesh();
+
+    // Rebuild the mesh (clears the previous data)
+    void rebuild();
+
+    // Render the mesh
+    void render() const;
+
+    // Get OpenGL program ID (for shader use)
+    GLuint getProgram() const;
+    GLuint program;  // Shader program ID
+
 private:
-    GLuint vao, vbo;      // OpenGL buffers
+    Chunk* chunk;  // Reference to the owning chunk
+    GLuint VAO, VBO;  // OpenGL handles for the vertex array and buffer objects
 
-    Chunk* chunk;         // Pointer to the chunk
-    int count_to_draw;
-    std::vector<uint8_t> getVertexData();  // Function to generate vertex data
-    void getVAO();  // Function to initialize VAO and VBO
-    int formatSize;
+
+    std::vector<float> vertexData;  // Vertex data
+
+    // Internal function to create the VAO and VBO
+    void setupMesh();
+
+    // Friend class for mesh building
+    friend class ChunkMeshBuilder;
 };
 
-#endif // CHUNKMESH_HPP
+#endif // CHUNK_MESH_HPP

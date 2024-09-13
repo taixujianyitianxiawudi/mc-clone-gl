@@ -7,6 +7,7 @@ Camera::Camera(const glm::vec3& position, float yaw, float pitch)
     // Set the perspective projection matrix using values from settings.hpp
     m_proj = glm::perspective(V_FOV, ASPECT_RATIO, NEAR, FAR);
     m_view = glm::mat4(1.0f);
+    frustum = new Frustum(this);
     update();
 }
 

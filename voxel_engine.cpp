@@ -2,7 +2,7 @@
 
 VoxelEngine::VoxelEngine() {
     // Initialize window
-    window = new sf::Window(WIN_RES, "Voxel Engine", sf::Style::Default, sf::ContextSettings(24));
+    window = new sf::Window(sf::VideoMode(WIN_RES.x,WIN_RES.y), "Voxel Engine", sf::Style::Default, sf::ContextSettings(24));
     window->setActive(true);
     glewInit();
     // Initialize OpenGL settings
@@ -47,7 +47,7 @@ void VoxelEngine::update() {
 
 void VoxelEngine::render() {
     // Clear the screen
-    glClearColor(BG_COLOR.r / 255.f, BG_COLOR.g / 255.f, BG_COLOR.b / 255.f, BG_COLOR.a / 255.f);
+    glClearColor(BG_COLOR.x,BG_COLOR.y,BG_COLOR.z,1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     scene->render();
     // Swap buffers
@@ -61,6 +61,7 @@ void VoxelEngine::handleEvents() {
            (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)) {
             isRunning = false;
            }
+        player->handle_event(event);
     }
 }
 

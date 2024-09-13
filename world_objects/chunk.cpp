@@ -4,6 +4,7 @@
 
 #include "../World.hpp"
 #include "../voxel_engine.hpp"
+#include "../terrain_gen.hpp"
 
 Chunk::Chunk(World* world, glm::ivec3 position)
     : world(world),
@@ -12,7 +13,8 @@ Chunk::Chunk(World* world, glm::ivec3 position)
       m_model(getModelMatrix()),
       is_empty(true),
       position(position),
-        voxels(nullptr)
+        voxels_chunk(nullptr),
+        center((glm::vec3(position) + glm::vec3(0.5f)) * static_cast<float>(CHUNK_SIZE))
 {
     //buildMesh();
 }
@@ -35,6 +37,8 @@ void Chunk::setUniform() {
 }
 
 void Chunk::render() {
+    // 好像不用frustum性能更好
+    //bool is_on_frustum = app->player->frustum->isOnFrustum(this);
     if (!is_empty) {
         if (mesh) {
             GLuint program = mesh->program;
@@ -43,12 +47,11 @@ void Chunk::render() {
             mesh->render();
         }
     }
-
 }
 
 
-std::array<int, CHUNK_VOL> Chunk::buildVoxels() {
-    std::array<int, CHUNK_VOL> voxels;
+std::array<float, CHUNK_VOL> Chunk::buildVoxels() {
+    std::array<float, CHUNK_VOL> voxels;
     voxels.fill(0);
 
     // Get world-space chunk coordinates
@@ -77,8 +80,36 @@ std::array<int, CHUNK_VOL> Chunk::buildVoxels() {
             break;
         }
     }
+    return voxels;
+}
 
+void Chunk::generate_terrain(std::array<float, CHUNK_VOL> &voxels, int cx, int cy, int cz) {
+    for (int x = 0; x < CHUNK_SIZE; ++x) {
+        int wx = x + cx;
+        for (int z = 0; z < CHUNK_SIZE; ++z) {
+            int wz = z + cz;
+            int worldHeight = getHeight(wx, wz);  // Replace with the correct terrain height function
+            int localHeight = std::min(worldHeight - cy, CHUNK_SIZE);
 
+            for (int y = 0; y < localHeight; ++y) {
+                int wy = y + cy;
+                setVoxelID(voxels, x, y, z, wx, wy, wz, worldHeight);  // Call your voxel ID setting function
+            }
+        }
+    }
+}
+
+std::array<float, CHUNK_VOL> Chunk::buildVoxels_new() {
+    std::array<float, CHUNK_VOL> voxels = {0};  // Initialize array with zeros
+
+    int cx = static_cast<int>(position.x) * CHUNK_SIZE;
+    int cy = static_cast<int>(position.y) * CHUNK_SIZE;
+    int cz = static_cast<int>(position.z) * CHUNK_SIZE;
+
+    generate_terrain(voxels, cx, cy, cz);
+
+    // Check if the voxel array has any non-zero entries
+    is_empty = std::all_of(voxels.begin(), voxels.end(), [](float v) { return v == 0; });
     return voxels;
 }
 

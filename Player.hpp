@@ -7,6 +7,7 @@
 
 #include "settings.hpp"
 #include "Camera.hpp"
+#include "voxel_handler.hpp"
 
 
 class VoxelEngine;
@@ -17,6 +18,7 @@ public:
 
     // Update player state (keyboard and mouse)
     void update(float deltaTime);
+    void handle_event(sf::Event event);
 
 private:
     VoxelEngine* app;
@@ -24,6 +26,7 @@ private:
     // Control functions
     void keyboard_control(float velocity);
     void mouse_control();
+    VoxelHandler* voxel_handler;
 };
 
 

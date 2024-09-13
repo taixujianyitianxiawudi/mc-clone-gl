@@ -7,6 +7,7 @@ World::World(VoxelEngine* app)
 {
     buildChunks();
     buildChunkMesh();
+    voxel_handler = new VoxelHandler(this);
 }
 
 // Function to build the chunks
@@ -24,10 +25,10 @@ void World::buildChunks() {
                 chunks[chunkIndex] = chunk;
 
                 // Build the voxels for this chunk and store them in the voxel array
-                voxels[chunkIndex] = chunks[chunkIndex]->buildVoxels();
-
+                //voxels_world[chunkIndex] = chunks[chunkIndex]->buildVoxels();
+                voxels_world[chunkIndex] = chunks[chunkIndex]->buildVoxels_new();
                 // get pointer to voxels
-                chunk->voxels = &voxels[chunkIndex];
+                chunk->voxels_chunk = &voxels_world[chunkIndex];
 
             }
         }
@@ -38,11 +39,13 @@ void World::buildChunks() {
 void World::buildChunkMesh() {
     for (const auto& chunk : chunks) {
         chunk->buildMesh();  // Build the mesh for each chunk
+        chunk->mesh->rebuild();
     }
 }
 
 // Update function (currently does nothing)
 void World::update() {
+    voxel_handler->update();
     // Update logic for the world can be added here
 }
 
@@ -55,4 +58,15 @@ void World::render() {
 
 VoxelEngine * World::getApp() {
     return app;
+}
+
+Chunk* World::getChunkAt(const glm::ivec3& chunkPos) const {
+    if (chunkPos.x < 0 || chunkPos.x >= WORLD_W ||
+        chunkPos.y < 0 || chunkPos.y >= WORLD_H ||
+        chunkPos.z < 0 || chunkPos.z >= WORLD_D) {
+        return nullptr;  // Outside world bounds
+        }
+
+    int chunkIndex = chunkPos.x + WORLD_W * chunkPos.z + WORLD_AREA * chunkPos.y;
+    return chunks[chunkIndex];
 }

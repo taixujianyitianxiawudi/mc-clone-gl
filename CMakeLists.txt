@@ -36,6 +36,24 @@ add_executable(untitled3 main.cpp
         World.cpp
         World.hpp
         assets/stb_image.h
+        voxel_handler.cpp
+        voxel_handler.hpp
+        world_objects/VoxelMarker.cpp
+        world_objects/VoxelMarker.hpp
+        meshes/cube_mesh.cpp
+        meshes/cube_mesh.hpp
+        terrain_gen.cpp
+        terrain_gen.hpp
+        noise.cpp
+        noise.hpp
+        deps/OpenSimplexNoise.cpp
+        deps/OpenSimplexNoise.hpp
+        world_objects/water.cpp
+        world_objects/water.hpp
+        meshes/cloud_mesh.cpp
+        meshes/cloud_mesh.hpp
+        frustum.cpp
+        frustum.hpp
 )
 target_include_directories(untitled3 PUBLIC "E:/SFML-2.6.1/include")
 # Link SFML libraries

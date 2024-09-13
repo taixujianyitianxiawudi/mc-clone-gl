@@ -9,6 +9,8 @@
 #include "meshes/quad_mesh.hpp"
 #include "world_objects/Chunk.hpp"
 #include "World.hpp"
+#include "world_objects/VoxelMarker.hpp"
+
 class VoxelEngine;
 
 class Scene {
@@ -17,10 +19,12 @@ public:
 
     void update();
     void render();
+    World world;
+    std::unique_ptr<VoxelMarker> voxel_marker;
 private:
     VoxelEngine* app;
     //QuadMesh quad;
-    World world;
+
 
 };
 

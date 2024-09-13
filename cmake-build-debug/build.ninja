@@ -153,6 +153,78 @@ build CMakeFiles/untitled3.dir/World.cpp.obj: CXX_COMPILER__untitled3_unscanned_
   OBJECT_DIR = CMakeFiles\untitled3.dir
   OBJECT_FILE_DIR = CMakeFiles\untitled3.dir
 
+build CMakeFiles/untitled3.dir/voxel_handler.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/voxel_handler.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\voxel_handler.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir
+
+build CMakeFiles/untitled3.dir/world_objects/VoxelMarker.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/world_objects/VoxelMarker.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\world_objects\VoxelMarker.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir\world_objects
+
+build CMakeFiles/untitled3.dir/meshes/cube_mesh.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/meshes/cube_mesh.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\meshes\cube_mesh.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir\meshes
+
+build CMakeFiles/untitled3.dir/terrain_gen.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/terrain_gen.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\terrain_gen.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir
+
+build CMakeFiles/untitled3.dir/noise.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/noise.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\noise.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir
+
+build CMakeFiles/untitled3.dir/deps/OpenSimplexNoise.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/deps/OpenSimplexNoise.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\deps\OpenSimplexNoise.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir\deps
+
+build CMakeFiles/untitled3.dir/world_objects/water.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/world_objects/water.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\world_objects\water.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir\world_objects
+
+build CMakeFiles/untitled3.dir/meshes/cloud_mesh.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/meshes/cloud_mesh.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\meshes\cloud_mesh.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir\meshes
+
+build CMakeFiles/untitled3.dir/frustum.cpp.obj: CXX_COMPILER__untitled3_unscanned_Debug C$:/Users/zzk/CLionProjects/untitled3/frustum.cpp || cmake_object_order_depends_target_untitled3
+  DEFINES = -DSFML_STATIC
+  DEP_FILE = CMakeFiles\untitled3.dir\frustum.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -IE:/glfw-3.4.bin.WIN64/include -IE:/glm -IC:/Users/zzk/CLionProjects/untitled3/src -IC:/Users/zzk/CLionProjects/untitled3/shaders -IE:/glew-2.2.0/include -isystem E:/SFML-2.6.1/include
+  OBJECT_DIR = CMakeFiles\untitled3.dir
+  OBJECT_FILE_DIR = CMakeFiles\untitled3.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target untitled3
@@ -161,7 +233,7 @@ build CMakeFiles/untitled3.dir/World.cpp.obj: CXX_COMPILER__untitled3_unscanned_
 #############################################
 # Link the executable untitled3.exe
 
-build untitled3.exe: CXX_EXECUTABLE_LINKER__untitled3_Debug CMakeFiles/untitled3.dir/main.cpp.obj CMakeFiles/untitled3.dir/voxel_engine.cpp.obj CMakeFiles/untitled3.dir/settings.cpp.obj CMakeFiles/untitled3.dir/Camera.cpp.obj CMakeFiles/untitled3.dir/Player.cpp.obj CMakeFiles/untitled3.dir/meshes/quad_mesh.cpp.obj CMakeFiles/untitled3.dir/Scene.cpp.obj CMakeFiles/untitled3.dir/Shader.cpp.obj CMakeFiles/untitled3.dir/meshes/chunk_mesh.cpp.obj CMakeFiles/untitled3.dir/world_objects/chunk.cpp.obj CMakeFiles/untitled3.dir/meshes/chunk_mesh_builder.cpp.obj CMakeFiles/untitled3.dir/Textures.cpp.obj CMakeFiles/untitled3.dir/World.cpp.obj | E$:/SFML-2.6.1/lib/libsfml-graphics-d.a E$:/SFML-2.6.1/lib/libsfml-network-d.a E$:/glfw-3.4.bin.WIN64/lib-mingw-w64/glfw3.dll E$:/glfw-3.4.bin.WIN64/lib-mingw-w64/libglfw3.a C$:/Program$ Files$ (x86)/Windows$ Kits/10/Lib/10.0.22000.0/um/x64/OpenGL32.Lib E$:/glew-2.2.0/lib/Release/x64/glew32.lib C$:/Users/zzk/ClionProjects/untitled3/glad/glad.c E$:/SFML-2.6.1/lib/libsfml-window-d.a E$:/SFML-2.6.1/lib/libsfml-system-d.a
+build untitled3.exe: CXX_EXECUTABLE_LINKER__untitled3_Debug CMakeFiles/untitled3.dir/main.cpp.obj CMakeFiles/untitled3.dir/voxel_engine.cpp.obj CMakeFiles/untitled3.dir/settings.cpp.obj CMakeFiles/untitled3.dir/Camera.cpp.obj CMakeFiles/untitled3.dir/Player.cpp.obj CMakeFiles/untitled3.dir/meshes/quad_mesh.cpp.obj CMakeFiles/untitled3.dir/Scene.cpp.obj CMakeFiles/untitled3.dir/Shader.cpp.obj CMakeFiles/untitled3.dir/meshes/chunk_mesh.cpp.obj CMakeFiles/untitled3.dir/world_objects/chunk.cpp.obj CMakeFiles/untitled3.dir/meshes/chunk_mesh_builder.cpp.obj CMakeFiles/untitled3.dir/Textures.cpp.obj CMakeFiles/untitled3.dir/World.cpp.obj CMakeFiles/untitled3.dir/voxel_handler.cpp.obj CMakeFiles/untitled3.dir/world_objects/VoxelMarker.cpp.obj CMakeFiles/untitled3.dir/meshes/cube_mesh.cpp.obj CMakeFiles/untitled3.dir/terrain_gen.cpp.obj CMakeFiles/untitled3.dir/noise.cpp.obj CMakeFiles/untitled3.dir/deps/OpenSimplexNoise.cpp.obj CMakeFiles/untitled3.dir/world_objects/water.cpp.obj CMakeFiles/untitled3.dir/meshes/cloud_mesh.cpp.obj CMakeFiles/untitled3.dir/frustum.cpp.obj | E$:/SFML-2.6.1/lib/libsfml-graphics-d.a E$:/SFML-2.6.1/lib/libsfml-network-d.a E$:/glfw-3.4.bin.WIN64/lib-mingw-w64/glfw3.dll E$:/glfw-3.4.bin.WIN64/lib-mingw-w64/libglfw3.a C$:/Program$ Files$ (x86)/Windows$ Kits/10/Lib/10.0.22000.0/um/x64/OpenGL32.Lib E$:/glew-2.2.0/lib/Release/x64/glew32.lib C$:/Users/zzk/ClionProjects/untitled3/glad/glad.c E$:/SFML-2.6.1/lib/libsfml-window-d.a E$:/SFML-2.6.1/lib/libsfml-system-d.a
   FLAGS = -g
   LINK_LIBRARIES = E:/SFML-2.6.1/lib/libsfml-graphics-d.a  E:/SFML-2.6.1/lib/libsfml-network-d.a  E:/glfw-3.4.bin.WIN64/lib-mingw-w64/glfw3.dll  E:/glfw-3.4.bin.WIN64/lib-mingw-w64/libglfw3.a  "C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22000.0/um/x64/OpenGL32.Lib"  E:/glew-2.2.0/lib/Release/x64/glew32.lib  C:/Users/zzk/ClionProjects/untitled3/glad/glad.c  E:/SFML-2.6.1/lib/libsfml-window-d.a  E:/SFML-2.6.1/lib/libsfml-system-d.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\untitled3.dir

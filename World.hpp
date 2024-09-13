@@ -4,10 +4,12 @@
 #include <vector>
 #include <array>
 #include "settings.hpp"
+#include "voxel_handler.hpp"
 #include "world_objects/Chunk.hpp"
 
 
 class VoxelEngine;  // Forward declaration of App class if needed
+class VoxelHandler;
 
 class World {
 public:
@@ -22,8 +24,10 @@ public:
     void update();
     void render();
     VoxelEngine* getApp();
-    std::array<std::array<int, CHUNK_VOL>, WORLD_VOL> voxels;
+    std::array<std::array<float, CHUNK_VOL>, WORLD_VOL> voxels_world;
     std::array<Chunk*, WORLD_VOL> chunks;
+    Chunk* getChunkAt(const glm::ivec3& chunkPos) const;
+    VoxelHandler* voxel_handler;
 private:
     VoxelEngine* app;
 

@@ -4,7 +4,9 @@
 
 // Constructor for Player class
 Player::Player(VoxelEngine* app, const glm::vec3& position, float yaw, float pitch)
-    : Camera(position, yaw, pitch), app(app) {}
+    : Camera(position, yaw, pitch), app(app) {
+    //voxel_handler = app->scene->world.voxel_handler;
+}
 
 // Update function to handle mouse and keyboard input and camera updates
 void Player::update(float deltaTime) {
@@ -12,6 +14,19 @@ void Player::update(float deltaTime) {
     keyboard_control(velocity);
     mouse_control();
     Camera::update();  // Call the update method from the Camera class
+}
+
+void Player::handle_event(sf::Event event) {
+    // Handle mouse button clicks for adding and removing voxels
+    if (event.type == sf::Event::MouseButtonPressed) {
+        if (event.mouseButton.button == sf::Mouse::Left) {
+            // Left mouse button pressed - set voxel
+            app->scene->world.voxel_handler->setVoxel();
+        } else if (event.mouseButton.button == sf::Mouse::Right) {
+            // Right mouse button pressed - switch mode (add/remove)
+            app->scene->world.voxel_handler->switchMode();
+        }
+    }
 }
 
 // Handle mouse input for controlling the yaw and pitch

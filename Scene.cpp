@@ -9,11 +9,15 @@
 Scene::Scene(VoxelEngine* app)
     : app(app),
     //quad(app),
-    world(app) {}
+    world(app) {
+    voxel_marker = std::make_unique<VoxelMarker>(world.voxel_handler);
+
+}
 
 // Update function (currently empty)
 void Scene::update() {
     world.update();
+    voxel_marker->update();
     // Update the scene here if needed
 }
 
@@ -21,4 +25,5 @@ void Scene::update() {
 void Scene::render() {
     //quad.render();
     world.render();
+    voxel_marker->render();
 }
