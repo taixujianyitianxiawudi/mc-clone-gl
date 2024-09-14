@@ -24,13 +24,20 @@ public:
     // Set uniforms for rendering
     void setUniform();
 
+    void setUniform_with_program(GLuint program);
+
     // Render the chunk mesh
     void render();
+
+    void render_with_shader_program(GLuint program);
 
     // Build voxel data
 
     std::array<float, CHUNK_VOL> buildVoxels();
     std::array<float, CHUNK_VOL> buildVoxels_new();
+
+    void check_empty();
+
     // Set the voxel data
     void setVoxels(float* voxelData);
 

@@ -19,15 +19,22 @@ public:
     // Build functions
     void buildChunks();
     void buildChunkMesh();
+    void loadChunks();
 
     // Game loop functions
     void update();
     void render();
+
+    void render_with_shader_program(GLuint program);
+
     VoxelEngine* getApp();
     std::array<std::array<float, CHUNK_VOL>, WORLD_VOL> voxels_world;
     std::array<Chunk*, WORLD_VOL> chunks;
     Chunk* getChunkAt(const glm::ivec3& chunkPos) const;
     VoxelHandler* voxel_handler;
+
+    void saveChunkToDisk(std::array<std::array<float, CHUNK_VOL>, WORLD_VOL> &voxels_world, const std::string &filename);
+    void loadChunkFromDisk(std::array<std::array<float, CHUNK_VOL>, WORLD_VOL> &voxels_world, const std::string &filename);
 private:
     VoxelEngine* app;
 

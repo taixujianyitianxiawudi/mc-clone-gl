@@ -26,13 +26,16 @@ void ChunkMesh::setupMesh() {
 
     // Vertex attribute setup (position, UV, normal, etc.)
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)0);  // Position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)0);  // Position
 
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));  // UVs
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 3));  // UVs
 
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 5));  // VoxelId
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 5));  // VoxelId
+
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(float) * 7, (void*)(sizeof(float) * 6));  // face_id
 
     glBindVertexArray(0);  // Unbind VAO
 }
@@ -52,7 +55,7 @@ void ChunkMesh::rebuild() {
 void ChunkMesh::render() const {
     if (!vertexData.empty()) {
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 6);  // Assuming 5 floats per vertex (3 position, 2 UV)
+        glDrawArrays(GL_TRIANGLES, 0, vertexData.size() / 7);  // Assuming 5 floats per vertex (3 position, 2 UV)
         glBindVertexArray(0);
     }
 }

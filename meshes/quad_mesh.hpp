@@ -11,10 +11,10 @@ public:
     ~QuadMesh();                 // Destructor
 
     void render();  // Function to render the quad mesh
-
+    GLuint program;   // Shader program ID
 private:
     GLuint vao, vbo;  // Vertex Array Object and Vertex Buffer Object
-    GLuint program;   // Shader program ID
+
     VoxelEngine* app; // Pointer to the main application (for accessing context and shader)
 
     std::vector<float> getVertexData();  // Function to get vertex data

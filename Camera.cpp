@@ -54,11 +54,11 @@ void Camera::move_right(float velocity) {
 }
 
 void Camera::move_up(float velocity) {
-    position += up * velocity;
+    position += glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
 }
 
 void Camera::move_down(float velocity) {
-    position -= up * velocity;
+    position -= glm::vec3(0.0f, 1.0f, 0.0f) * velocity;
 }
 
 void Camera::move_forward(float velocity) {

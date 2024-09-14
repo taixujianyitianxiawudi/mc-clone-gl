@@ -48,12 +48,18 @@ add_executable(untitled3 main.cpp
         noise.hpp
         deps/OpenSimplexNoise.cpp
         deps/OpenSimplexNoise.hpp
-        world_objects/water.cpp
-        world_objects/water.hpp
         meshes/cloud_mesh.cpp
         meshes/cloud_mesh.hpp
         frustum.cpp
         frustum.hpp
+        world_objects/water.cpp
+        world_objects/water.hpp
+        world_objects/cloud.cpp
+        world_objects/cloud.hpp
+        light.cpp
+        light.hpp
+        ShadowFramebuffer.cpp
+        ShadowFramebuffer.hpp
 )
 target_include_directories(untitled3 PUBLIC "E:/SFML-2.6.1/include")
 # Link SFML libraries

@@ -35,6 +35,7 @@ glm::mat4 VoxelMarker::getModelMatrix() {
 void VoxelMarker::render() {
     if (handler->voxelID) {
         setUniform();
+        glUseProgram(mesh->program);
         mesh->render();  // Render the cube mesh
     }
 }

@@ -4,7 +4,7 @@
 // Constructor: initializes the VAO and VBO for the quad mesh
 QuadMesh::QuadMesh(VoxelEngine* app) : app(app), vao(0), vbo(0) {
     // Get the shader program from the application context
-    program = app->shaderProgram->quadProgram;  // Assuming you have a method to get the shader program
+    program = app->shaderProgram->waterProgram;  // Assuming you have a method to get the shader program
 
     // Initialize the VAO
     getVAO();
@@ -31,42 +31,40 @@ void QuadMesh::getVAO() {
     glBufferData(GL_ARRAY_BUFFER, vertexData.size() * sizeof(float), vertexData.data(), GL_STATIC_DRAW);
 
     // Set the attribute pointers (position and color)
-    GLuint posLocation = glGetAttribLocation(program, "in_position");
-    glVertexAttribPointer(posLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    GLuint posLocation = glGetAttribLocation(program, "in_tex_coord");
     glEnableVertexAttribArray(posLocation);
+    glVertexAttribPointer(posLocation, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 
-    GLuint colorLocation = glGetAttribLocation(program, "in_color");
-    glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    GLuint colorLocation = glGetAttribLocation(program, "in_position");
     glEnableVertexAttribArray(colorLocation);
+    glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+
 
     // Unbind the VAO
     glBindVertexArray(0);
 }
 
-// Function to return the vertex data for the quad (positions and colors interleaved)
 std::vector<float> QuadMesh::getVertexData() {
-    // Vertices for two triangles forming a quad
-    std::vector<float> vertexData = {
-        // Position       // Color
-         0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Top-right, green
-        -0.5f,  0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // Top-left, red
-        -0.5f, -0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  // Bottom-left, yellow
-
-         0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Top-right, green
-        -0.5f, -0.5f, 0.0f,  1.0f, 1.0f, 0.0f,  // Bottom-left, yellow
-         0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Bottom-right, blue
+    // Interleave texture coordinates and vertex positions in a single step using floats
+    std::vector<float> vertex_data = {
+        // Tex coord (0, 0), Vertex (0, 0, 0)
+        0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+        // Tex coord (1, 1), Vertex (1, 0, 1)
+        1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+        // Tex coord (1, 0), Vertex (1, 0, 0)
+        1.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+        // Tex coord (0, 0), Vertex (0, 0, 0)
+        0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+        // Tex coord (0, 1), Vertex (0, 0, 1)
+        0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+        // Tex coord (1, 1), Vertex (1, 0, 1)
+        1.0f, 1.0f, 1.0f, 0.0f, 1.0f
     };
-    std::cout << vertexData.size();
-    return vertexData;
+    return vertex_data;
 }
 
-// Function to render the quad mesh
 void QuadMesh::render() {
-    // Use the shader program
-    glUseProgram(program);
-
-    // Bind the VAO and render the quad
     glBindVertexArray(vao);
-    glDrawArrays(GL_TRIANGLES, 0, 6);  // 6 vertices (2 triangles)
+    glDrawArrays(GL_TRIANGLES, 0, 6);
     glBindVertexArray(0);
 }

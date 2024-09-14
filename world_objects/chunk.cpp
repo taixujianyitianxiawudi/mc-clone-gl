@@ -36,16 +36,37 @@ void Chunk::setUniform() {
     }
 }
 
+void Chunk::setUniform_with_program(GLuint program) {
+    if (mesh) {
+        app->shaderProgram->setMatrixUniform(program, "m_model", m_model);
+    } else {
+        std::cout << "Chunk class No mesh" << std::endl;
+    }
+}
+
 void Chunk::render() {
     // 好像不用frustum性能更好
     //bool is_on_frustum = app->player->frustum->isOnFrustum(this);
-    if (!is_empty) {
-        if (mesh) {
+    float dist_to_player = glm::length(glm::vec3(app->player->get_position().x - center.x, app->player->get_position().z - center.z,0.0f));
+
+    if (!is_empty && mesh && dist_to_player < RENDER_RANGE * CHUNK_SIZE) {
             GLuint program = mesh->program;
             app->shaderProgram->use(program);
             this->setUniform();
             mesh->render();
-        }
+    }
+}
+
+void Chunk::render_with_shader_program(GLuint program) {
+    // 好像不用frustum性能更好
+    //bool is_on_frustum = app->player->frustum->isOnFrustum(this);
+    float dist_to_player = glm::length(glm::vec3(app->player->get_position().x - center.x, app->player->get_position().z - center.z,0.0f));
+
+    if (!is_empty && mesh && dist_to_player < RENDER_RANGE * CHUNK_SIZE) {
+        //GLuint program = mesh->program;
+        app->shaderProgram->use(program);
+        this->setUniform_with_program(program);
+        mesh->render();
     }
 }
 
@@ -111,5 +132,9 @@ std::array<float, CHUNK_VOL> Chunk::buildVoxels_new() {
     // Check if the voxel array has any non-zero entries
     is_empty = std::all_of(voxels.begin(), voxels.end(), [](float v) { return v == 0; });
     return voxels;
+}
+
+void Chunk::check_empty() {
+    is_empty = std::all_of(voxels_chunk->begin(), voxels_chunk->end(), [](float v) { return v == 0; });
 }
 

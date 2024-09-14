@@ -17,6 +17,8 @@ public:
     bool rayCast();
     std::tuple<int, int, glm::ivec3, Chunk*> getVoxelID(const glm::ivec3& voxelWorldPos);
     World* world;
+    bool isVoxelSolid(const glm::ivec3& voxelWorldPos);
+    int newVoxelID;
 private:
 
 
@@ -31,7 +33,7 @@ private:
     glm::ivec3 voxelNormal;
 
     bool interactionMode;
-    int newVoxelID;
+
 
     void rebuildAdjacentChunks();
     void rebuildAdjChunk(const glm::ivec3& adjVoxelPos);

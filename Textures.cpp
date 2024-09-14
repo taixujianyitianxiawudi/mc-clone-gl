@@ -4,32 +4,45 @@
 #include "assets/stb_image.h"
 
 // Constructor to initialize textures
-Textures::Textures(VoxelEngine* app) : app(app), texture_0(0) {
+Textures::Textures(VoxelEngine* app) : app(app) {
     // Load the texture from file
-    texture_0 = load("grass.png");
-    texture_1 = load("water.png");
-    texture_array_0 = loadTexArray("tex_array_0.png", 8);
-    texture_frame = load("frame.png");
+    grass_texture = load("grass.png");
+    water_texture = load("water.png");
+    world_texture_array = loadTexArray("tex_array_0.png", 8);
+    frame_texture = load("frame.png");
+
+    depth_texture = getDepthTexture(WIN_RES);
 
     // Bind the texture to texture unit 0
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture_0);
+    glBindTexture(GL_TEXTURE_2D, grass_texture);
+    grass_texture_unit = 0;
 
     glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D_ARRAY, texture_array_0);
+    glBindTexture(GL_TEXTURE_2D_ARRAY, world_texture_array);
+    world_texture_array_unit = 1;
 
     glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, texture_1);
+    glBindTexture(GL_TEXTURE_2D, water_texture);
+    water_texture_unit = 2;
 
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, texture_frame);
+    glBindTexture(GL_TEXTURE_2D, frame_texture);
+    frame_texture_unit = 3;
+
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, depth_texture);
+    depth_texture_unit = 4;
+
+
 }
 
 // Destructor to clean up OpenGL resources
 Textures::~Textures() {
-    glDeleteTextures(1, &texture_0);
-    glDeleteTextures(1, &texture_1);
-    glDeleteTextures(1, &texture_array_0);
+    glDeleteTextures(1, &grass_texture);
+    glDeleteTextures(1, &water_texture);
+    glDeleteTextures(1, &world_texture_array);
+    glDeleteTextures(1, &frame_texture);
 }
 
 
@@ -72,7 +85,8 @@ GLuint Textures::load(const std::string& fileName) {
 // Function to load a texture array from file
 GLuint Textures::loadTexArray(const std::string& fileName, int layerCount) {
     int width, height, nrChannels;
-    stbi_set_flip_vertically_on_load(true);
+    stbi_set_flip_vertically_on_load(false);
+
 
     std::string fullPath = "../assets/" + fileName;
     unsigned char* data = stbi_load(fullPath.c_str(), &width, &height, &nrChannels, 4);  // Load as RGBA
@@ -105,4 +119,23 @@ GLuint Textures::loadTexArray(const std::string& fileName, int layerCount) {
     stbi_image_free(data);
 
     return textureID;
+}
+
+GLuint Textures::getDepthTexture(const glm::vec2& windowSize) {
+    GLuint depthTexture;
+    glGenTextures(1, &depthTexture);
+    glBindTexture(GL_TEXTURE_2D, depthTexture);
+
+    // Allocate depth texture storage
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, windowSize.x, windowSize.y, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
+
+    // Set texture parameters for depth texture
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);  // No repeating
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);  // No repeating
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);    // No filtering
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    glBindTexture(GL_TEXTURE_2D, 0);  // Unbind the texture
+
+    return depthTexture;
 }

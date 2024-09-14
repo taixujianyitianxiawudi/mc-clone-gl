@@ -20,13 +20,30 @@ public:
     void update(float deltaTime);
     void handle_event(sf::Event event);
 
+    glm::vec3 velocity;
+    bool on_ground;
+    void applyGravity(float deltaTime);
+    bool isVoxelSolid(glm::vec3 voxelPos, std::array<std::array<float, CHUNK_VOL>, WORLD_VOL>& voxels_world);
+
+    void setFlyMode();
+
+    void setGravityMode();
+
+    bool fly_mode;
+    void switchFlyMode();
 private:
     VoxelEngine* app;
 
     // Control functions
     void keyboard_control(float velocity);
+
+    void keyboard_control_walk(float velocity);
+
+    void keyboard_block_type();
+
     void mouse_control();
     VoxelHandler* voxel_handler;
+
 };
 
 

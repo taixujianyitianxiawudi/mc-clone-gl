@@ -5,6 +5,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 #include "frustum.hpp"
+
 #include "settings.hpp"
 
 
@@ -37,13 +38,14 @@ public:
     glm::vec3 get_up() const { return up; }
 
     Frustum* frustum;
-private:
-    // Camera attr
-    // ibutes
     glm::vec3 position;
     glm::vec3 up;
     glm::vec3 right;
     glm::vec3 forward;
+
+private:
+    // Camera attr
+    // ibutes
 
     float yaw;
     float pitch;
@@ -54,7 +56,6 @@ private:
     // Internal helper functions
     void update_view_matrix();
     void update_vectors();
-
 
 };
 

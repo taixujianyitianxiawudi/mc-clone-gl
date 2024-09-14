@@ -48,7 +48,7 @@ void CubeMesh::getVAO() {
 
 // Function to return the vertex data for the cube (positions and texture coordinates interleaved)
 std::vector<float> CubeMesh::getVertexData() {
-    // Define vertices for the cube
+    // Define vertices for the cube (positions)
     std::vector<glm::vec3> vertices = {
         glm::vec3(0.0f, 0.0f, 1.0f),  // Front-bottom-left
         glm::vec3(1.0f, 0.0f, 1.0f),  // Front-bottom-right
@@ -62,12 +62,17 @@ std::vector<float> CubeMesh::getVertexData() {
 
     // Indices for each face (two triangles per face)
     std::vector<glm::ivec3> indices = {
-        glm::ivec3(0, 2, 3), glm::ivec3(0, 1, 2),  // Front face
-        glm::ivec3(1, 7, 2), glm::ivec3(1, 6, 7),  // Right face
-        glm::ivec3(6, 5, 4), glm::ivec3(4, 7, 6),  // Back face
-        glm::ivec3(3, 4, 5), glm::ivec3(3, 5, 0),  // Left face
-        glm::ivec3(3, 7, 4), glm::ivec3(3, 2, 7),  // Top face
-        glm::ivec3(0, 6, 1), glm::ivec3(0, 5, 6)   // Bottom face
+        glm::ivec3(0, 1, 2), glm::ivec3(0, 2, 3),  // Front face
+        glm::ivec3(1, 6, 7), glm::ivec3(1, 7, 2),  // Right face
+        glm::ivec3(6, 5, 4), glm::ivec3(6, 4, 7),  // Back face
+        glm::ivec3(5, 0, 3), glm::ivec3(5, 3, 4),  // Left face
+        glm::ivec3(3, 2, 7), glm::ivec3(3, 7, 4),  // Top face
+        glm::ivec3(5, 6, 1), glm::ivec3(5, 1, 0)   // Bottom face
+    };
+
+    // Fixed UV coordinates for each face
+    std::vector<glm::vec2> texCoords = {
+        { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f }  // Standard UVs for faces
     };
 
     // Create vertex data by interleaving positions and texture coordinates
@@ -80,20 +85,17 @@ std::vector<float> CubeMesh::getVertexData() {
             vertexData.push_back(vertex.y);
             vertexData.push_back(vertex.z);
 
-            // Add texture coordinates (you can modify these to match your textures)
-            vertexData.push_back((vertex.x > 0) ? 0.0f : 1.0f);  // tex_coord x
-            vertexData.push_back((vertex.y > 0) ? 1.0f : 0.0f);  // tex_coord y
+            // Push corresponding texture coordinate (ensure correct alignment with face orientation)
+            glm::vec2 uv = texCoords[i % 4];  // Use UV mapping per face
+            vertexData.push_back(uv.x);
+            vertexData.push_back(uv.y);
         }
     }
 
     return vertexData;
 }
 
-// Function to render the cube mesh
 void CubeMesh::render() {
-    // Use the shader program
-    glUseProgram(program);
-    // Bind the VAO and render the cube
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLES, 0, 36);  // 36 vertices (6 faces, 2 triangles per face)
     glBindVertexArray(0);

@@ -16,6 +16,7 @@ private:
     // Internal function to generate UVs
     static glm::vec2 getUV(int face, int vertexIndex);
     static bool isNeighborVoxelEmpty(Chunk* chunk, int x, int y, int z);
+    static glm::vec2 getUV_(int face, int vertexIndex);
 };
 
 #endif // CHUNK_MESH_BUILDER_HPP

@@ -1,14 +1,15 @@
 //
-// Created by zzk on 2024/9/12.
+// Created by zzk on 2024/9/13.
 //
 
 #include "water.hpp"
 
-water::water(VoxelEngine *app) {
+#include "../voxel_engine.hpp"
+
+Water::Water(VoxelEngine* app) : app(app) {
     mesh = new QuadMesh(app);
 }
 
-void water::render() {
+void Water::render() {
     mesh->render();
 }
-

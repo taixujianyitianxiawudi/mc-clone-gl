@@ -1,18 +1,20 @@
 //
-// Created by zzk on 2024/9/12.
+// Created by zzk on 2024/9/13.
 //
 
 #ifndef WATER_HPP
 #define WATER_HPP
-#include "../voxel_engine.hpp"
+#include "../meshes/quad_mesh.hpp"
+#include "../settings.hpp"
 
 class VoxelEngine;
 
-class water {
+class Water {
 public:
-    water(VoxelEngine* app);
+    Water(VoxelEngine* app);
     void render();
     QuadMesh* mesh;
+    VoxelEngine* app;
 };
 
 

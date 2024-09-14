@@ -164,3 +164,32 @@ void VoxelHandler::rebuildAdjacentChunks() {
     if (lz == 0) rebuildAdjChunk(glm::ivec3(wx, wy, wz - 1));
     else if (lz == CHUNK_SIZE - 1) rebuildAdjChunk(glm::ivec3(wx, wy, wz + 1));
 }
+
+bool VoxelHandler::isVoxelSolid(const glm::ivec3& voxelWorldPos) {
+    glm::ivec3 chunkPos = voxelWorldPos / CHUNK_SIZE;
+
+    // Check if the chunk is within the world bounds
+    if (chunkPos.x >= 0 && chunkPos.x < WORLD_W &&
+        chunkPos.y >= 0 && chunkPos.y < WORLD_H &&
+        chunkPos.z >= 0 && chunkPos.z < WORLD_D) {
+
+        // Get the chunk index
+        int chunkIndex = chunkPos.x + WORLD_W * chunkPos.z + WORLD_AREA * chunkPos.y;
+        Chunk* chunk = chunks[chunkIndex];
+
+        if (!chunk) return false;  // If the chunk doesn't exist, treat it as air (not solid)
+
+        // Calculate the local voxel position within the chunk
+        glm::ivec3 voxelLocalPos = voxelWorldPos - chunkPos * CHUNK_SIZE;
+
+        // Calculate the voxel index in the chunk's voxel array
+        int voxelIndex = voxelLocalPos.x + CHUNK_SIZE * voxelLocalPos.z + CHUNK_AREA * voxelLocalPos.y;
+
+        // Check if the voxel is solid (non-air, e.g., non-zero)
+        int voxelID = chunk->voxels_chunk->at(voxelIndex);
+        return voxelID != 0;  // Return true if the voxel is solid, otherwise false
+        }
+
+    // If the voxel is out of bounds, treat it as air (not solid)
+    return false;
+}

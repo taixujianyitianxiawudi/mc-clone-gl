@@ -30,7 +30,7 @@ const int DEPTH_SIZE = 24;
 const int NUM_SAMPLES = 1;  // Antialiasing
 
 // Resolution
-const glm::vec2 WIN_RES(1600, 900);
+const glm::vec2 WIN_RES(1920, 1080);
 
 // World generation
 const int SEED = 16;
@@ -46,7 +46,7 @@ const int CHUNK_VOL = CHUNK_AREA * CHUNK_SIZE;
 const float CHUNK_SPHERE_RADIUS = H_CHUNK_SIZE * std::sqrt(3);
 
 // World dimensions
-const int WORLD_W = 10;
+const int WORLD_W = 20;
 const int WORLD_H = 2;
 const int WORLD_D = WORLD_W;
 const int WORLD_AREA = WORLD_W * WORLD_D;
@@ -66,11 +66,11 @@ const float FAR = 2000.0f;
 const float PITCH_MAX = glm::radians(89.0f);
 
 // Player settings
-const float PLAYER_SPEED = 50.0f;
+const float PLAYER_SPEED = 10.0f;
 const float PLAYER_ROT_SPEED = 0.003f;
 const glm::vec3 PLAYER_POS(CENTER_XZ, CHUNK_SIZE, CENTER_XZ);
 const float MOUSE_SENSITIVITY = 0.002f;
-
+const float JUMP_STRENGTH = 5.0f;
 // Colors
 const glm::vec3 BG_COLOR(0.58f, 0.83f, 0.99f);
 
@@ -104,6 +104,14 @@ const int WATER_AREA = 5 * CHUNK_SIZE * WORLD_W;
 // Cloud settings
 const float CLOUD_SCALE = 25.0f;
 const float CLOUD_HEIGHT = WORLD_H * CHUNK_SIZE * 2;
+
+// Render settings
+const int RENDER_RANGE = 5;
+
+// Physics settings
+const float GRAVITY = -9.8f;
+const float MAX_FALL_SPEED = -50.0f;
+
 
 #endif // SETTINGS_HPP
 

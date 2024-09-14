@@ -13,7 +13,8 @@ VoxelEngine::VoxelEngine() {
     settings.attributeFlags = sf::ContextSettings::Core;
 
     glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
+    //glCullFace(GL_BACK);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -68,7 +69,10 @@ void VoxelEngine::handleEvents() {
 void VoxelEngine::on_init() {
     textures = std::make_unique<Textures>(this);
     player = std::make_unique<Player>(this);
+
     shaderProgram = std::make_unique<ShaderProgram>(this);
+    //shaderProgram->setupShadowMapping(WIN_RES.x,WIN_RES.y);
+
     scene = std::make_unique<Scene>(this);
 }
 
@@ -79,7 +83,7 @@ void VoxelEngine::run() {
         update();
         render();
     }
-
+    scene->world->saveChunkToDisk(scene->world->voxels_world, "world.bin");
     window->close();
 }
 

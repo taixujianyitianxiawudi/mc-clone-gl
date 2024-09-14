@@ -10,7 +10,8 @@
 #include "world_objects/Chunk.hpp"
 #include "World.hpp"
 #include "world_objects/VoxelMarker.hpp"
-
+#include "world_objects/water.hpp"
+#include "light.hpp"
 class VoxelEngine;
 
 class Scene {
@@ -19,7 +20,10 @@ public:
 
     void update();
     void render();
-    World world;
+    void render_new();
+    World* world;
+    Water* water;
+    Light* light;
     std::unique_ptr<VoxelMarker> voxel_marker;
 private:
     VoxelEngine* app;
