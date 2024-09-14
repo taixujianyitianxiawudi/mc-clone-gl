@@ -37,7 +37,7 @@ void main()
 
     //fog
     float fog_dist = gl_FragCoord.z / gl_FragCoord.w;
-    tex_color_rgb = mix(tex_color_rgb, bg_color, (1.0 - exp2(-0.00001 * fog_dist * fog_dist)));
+    tex_color_rgb = mix(tex_color_rgb, bg_color, (1.0 - exp2(-0.00002 * fog_dist * fog_dist)));
 
 
     tex_color_rgb = pow(tex_color_rgb, inv_gamma);

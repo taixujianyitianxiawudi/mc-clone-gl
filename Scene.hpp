@@ -11,6 +11,7 @@
 #include "World.hpp"
 #include "world_objects/VoxelMarker.hpp"
 #include "world_objects/water.hpp"
+#include "world_objects/cloud.hpp"
 #include "light.hpp"
 class VoxelEngine;
 
@@ -24,6 +25,7 @@ public:
     World* world;
     Water* water;
     Light* light;
+    Cloud* cloud;
     std::unique_ptr<VoxelMarker> voxel_marker;
 private:
     VoxelEngine* app;

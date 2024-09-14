@@ -21,6 +21,7 @@ public:
     std::unique_ptr<ShaderProgram> shaderProgram;
     std::unique_ptr<Scene> scene;
     std::unique_ptr<Textures> textures;
+    float time;
 
 private:
     void update();
@@ -30,7 +31,7 @@ private:
 
     sf::Clock clock;
     float deltaTime;
-    float time;
+
     bool isRunning;
 
 };

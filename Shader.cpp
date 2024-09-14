@@ -66,6 +66,12 @@ void ShaderProgram::setUniformsOnInit() {
     use(shadowProgram);
     setMatrixUniform(shadowProgram, "m_proj", proj);
     setMatrixUniform(shadowProgram, "m_model", model);
+
+    use(cloudsProgram);
+    setMatrixUniform(cloudsProgram, "m_proj", proj);
+    setIntUniform(cloudsProgram, "center", CENTER_XZ);
+    setVec3Uniform(cloudsProgram, "bg_color", BG_COLOR);
+    setFloatUniform(cloudsProgram, "cloud_scale", CLOUD_SCALE);
 }
 
 // Update the uniforms (for example, the view matrix)
@@ -81,6 +87,8 @@ void ShaderProgram::update() {
     setMatrixUniform(waterProgram, "m_view", view);
     //use(shadowProgram);
     //setMatrixUniform(shadowProgram, "m_view_light", view);
+    use(cloudsProgram);
+    setMatrixUniform(cloudsProgram, "m_view", view);
 }
 
 // Use the shader program

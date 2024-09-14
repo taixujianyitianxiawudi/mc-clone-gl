@@ -14,6 +14,7 @@ Scene::Scene(VoxelEngine* app)
     water = new Water(app);
     voxel_marker = std::make_unique<VoxelMarker>(world->voxel_handler);
     light = new Light(app, glm::vec3(0.0f, 40.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+    cloud = new Cloud(app);
 
 }
 
@@ -21,6 +22,7 @@ Scene::Scene(VoxelEngine* app)
 void Scene::update() {
     world->update();
     voxel_marker->update();
+    cloud->update();
     // Update the scene here if needed
 }
 
@@ -34,6 +36,8 @@ void Scene::render() {
     water->render();
     glUseProgram(app->shaderProgram->voxel_marker_program);
     voxel_marker->render();
+    glUseProgram(app->shaderProgram->cloudsProgram);
+    cloud->render();
 }
 
 void Scene::render_new() {
